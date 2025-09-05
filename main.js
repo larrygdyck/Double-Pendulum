@@ -5,7 +5,7 @@ import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
 import { x1,y1,x2,y2,positions1,positions2,updatePendulum,speedFactor,limit,lastIndex,i } from './pendulum.js';
 let j = 0;
-//let traceArray = [new THREE.Vector3(0,0,0)]; 
+
   while (i < (limit - 1)) {
     updatePendulum();
     }
@@ -25,26 +25,28 @@ scene.add(light);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const geometry = new THREE.SphereGeometry(0.1, 32, 16);
+const geometry1 = new THREE.SphereGeometry(0.15, 32, 16);
+const geometry2 = new THREE.SphereGeometry(0.15, 32, 16);
 const material = new THREE.MeshPhongMaterial({ color: 'blue' });
 const material2 = new THREE.MeshPhongMaterial({ color: 'red' });
-const pendulumBob1 = new THREE.Mesh(geometry, material);
+const pendulumBob1 = new THREE.Mesh(geometry1, material);
 
 pendulumBob1.position.set(x1, y1, 0);
-const pendulumBob2 = new THREE.Mesh(geometry, material2);
+const pendulumBob2 = new THREE.Mesh(geometry2, material2);
 pendulumBob2.position.set(x2, y2, 0);
-
 
 const rodGeometry1 = new LineGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(x1, y1, 0)]);
 const rodGeometry2 = new LineGeometry().setFromPoints([new THREE.Vector3(x1, y1, 0), new THREE.Vector3(x2, y2, 0)]);
 const traceGeometry = new LineGeometry().setFromPoints(positions2);
 
-const rodMaterial = new LineMaterial({ linewidth: 1, color: 0xffffff });
-const traceMaterial = new LineMaterial({ linewidth: 1, color: 0x008000 }); 
+const rodMaterial = new LineMaterial({ linewidth: 3, color: 0xffffff });
+const traceMaterial = new LineMaterial({ linewidth: 3, color: 0x008000 }); 
 
 const rod1 = new Line2(rodGeometry1, rodMaterial);
 const rod2 = new Line2(rodGeometry2, rodMaterial);
 const lineTrace = new Line2(traceGeometry, traceMaterial);
+lineTrace.geometry.maxInstancedCount = limit;
+lineTrace.geometry.instanceCount = 0;
 
 scene.add(lineTrace);
 scene.add(pendulumBob1);
@@ -72,23 +74,26 @@ window.addEventListener('keydown', (event) => {
 function animate() {
  
     // Update the positions in the 3D scene
-    
+   
    pendulumBob1.position.set(positions1[j].x, positions1[j].y, 0);
    pendulumBob2.position.set(positions2[j].x, positions2[j].y, 0);
 
-   rod1.geometry.attributes.position.setXYZ(1, positions1[j].x, positions1[j].y, 0);
-   rod2.geometry.attributes.position.setXYZ(0, positions1[j].x, positions1[j].y, 0);
-   rod2.geometry.attributes.position.setXYZ(1, positions2[j].x, positions2[j].y, 0);
+   rodGeometry1.setFromPoints([new THREE.Vector3(0,0,0), positions1[j]]);
+   rodGeometry2.setFromPoints([positions1[j], positions2[j]]);
+   //rod1.geometry.attributes.position.setXYZ(1, positions1[j].x, positions1[j].y, 0);
+   //rod2.geometry.attributes.position.setXYZ(0, positions1[j].x, positions1[j].y, 0);
+   //rod2.geometry.attributes.position.setXYZ(1, positions2[j].x, positions2[j].y, 0);
 
-   traceGeometry.setDrawRange(0,j);
+   lineTrace.geometry.instanceCount = j;
    //console.log("got this far");
     
     j = (j + 1) % limit;
   
   
-   rod1.geometry.computeBoundingSphere();
-   rod2.geometry.computeBoundingSphere();
+   //rod1.geometry.computeBoundingSphere();
+   //rod2.geometry.computeBoundingSphere();
    //lineTrace.geometry.computeBoundingSphere();
+  
     rod1.geometry.attributes.position.needsUpdate = true;
     rod2.geometry.attributes.position.needsUpdate = true;
     lineTrace.geometry.attributes.position.needsUpdate = true;
