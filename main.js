@@ -80,17 +80,10 @@ function animate() {
 
    rodGeometry1.setFromPoints([new THREE.Vector3(0,0,0), positions1[j]]);
    rodGeometry2.setFromPoints([positions1[j], positions2[j]]);
-   //rod1.geometry.attributes.position.setXYZ(1, positions1[j].x, positions1[j].y, 0);
-   //rod2.geometry.attributes.position.setXYZ(0, positions1[j].x, positions1[j].y, 0);
-   //rod2.geometry.attributes.position.setXYZ(1, positions2[j].x, positions2[j].y, 0);
 
    lineTrace.geometry.instanceCount = j;
     
     j = (j + 1) % limit;
-  
-   //rod1.geometry.computeBoundingSphere();
-   //rod2.geometry.computeBoundingSphere();
-   //lineTrace.geometry.computeBoundingSphere();
   
     rod1.geometry.attributes.position.needsUpdate = true;
     rod2.geometry.attributes.position.needsUpdate = true;
