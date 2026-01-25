@@ -85,10 +85,8 @@ function animate() {
    //rod2.geometry.attributes.position.setXYZ(1, positions2[j].x, positions2[j].y, 0);
 
    lineTrace.geometry.instanceCount = j;
-   //console.log("got this far");
     
     j = (j + 1) % limit;
-  
   
    //rod1.geometry.computeBoundingSphere();
    //rod2.geometry.computeBoundingSphere();
@@ -101,9 +99,7 @@ function animate() {
     renderer.render(scene, camera);
     controls.update();
    
-    requestAnimationFrame( animate );
-    
+    requestAnimationFrame( animate ); 
 }
-
 animate();
 
