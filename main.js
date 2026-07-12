@@ -53,9 +53,7 @@ scene.add(pendulumBob1);
 scene.add(pendulumBob2);
 scene.add(rod1);
 scene.add(rod2);    
-
 camera.position.set(0, 0, 4);
-
 scene.add(camera);
 
 window.addEventListener('resize', () => {
@@ -63,24 +61,14 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
-/*
-window.addEventListener('keydown', (event) => {
-    if (event.key === ' ') {
-        // Reset the pendulum state
-        state = (0, 0, 0, 0);
-    }
-});
-*/    
+
 function animate() {
  
-    // Update the positions in the 3D scene
-   
+    // Update the positions in the 3D scene  
    pendulumBob1.position.set(positions1[j].x, positions1[j].y, 0);
    pendulumBob2.position.set(positions2[j].x, positions2[j].y, 0);
-
    rodGeometry1.setFromPoints([new THREE.Vector3(0,0,0), positions1[j]]);
    rodGeometry2.setFromPoints([positions1[j], positions2[j]]);
-
    lineTrace.geometry.instanceCount = j;
     
     j = (j + 1) % limit;
