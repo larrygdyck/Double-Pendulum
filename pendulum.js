@@ -106,7 +106,6 @@ function angularAcceleration2(state) { // Calculate angular acceleration of Pend
     if (error == 0) {
         return nextStepRK5; // No error, accept the step
     }
-
     else if (error > tolerance) {
         h = 0.9 * h * Math.pow(tolerance / error, 0.2); // Reduce step size
         dt = h;
@@ -116,8 +115,7 @@ function angularAcceleration2(state) { // Calculate angular acceleration of Pend
         h = 0.9 * h * Math.pow(tolerance / error, 0.25); // Increase step size
         dt = h;
         return nextStepRK5; // Accept the step
-    }  
-    
+    }   
 }
 
 export function updatePendulum() {
@@ -138,13 +136,8 @@ export function updatePendulum() {
     t = 0;
     }
     PE = g * (m1 * y1 + m2 * y2) + potentialCorrection; // Potential Energy
-    //console.log("Potential Energy: " + PE);
-
     KE = 0.5 * m1 * (l1 ** 2) * (state[2] ** 2) + 0.5 * m2 * ((l1 ** 2) * (state[2] ** 2) + (l2 ** 2) * (state[3] ** 2) + 
                 2 * l1 * l2 * state[2] * state[3] * Math.cos(state[0] - state[1])); // Kinetic Energy
-    //console.log("Kinetic Energy: " + KE);
-
     TE = PE + KE; // Total Energy
-    //console.log("Total Energy: " + TE);
 }
 
